@@ -9,7 +9,11 @@ import HolderDonut from '@/components/HolderDonut';
 import ScoreBars from '@/components/ScoreBars';
 import MiniGauge from '@/components/MiniGauge';
 import SkeletonLoader from '@/components/SkeletonLoader';
+import AIBrief from '@/components/AIBrief';
+import TokenUnlocks from '@/components/TokenUnlocks';
 import { getTokenPriceChart } from '@/lib/api';
+import { useWatchlist } from '@/lib/watchlist';
+import { Star } from 'lucide-react';
 
 export default function TokenReportPage() {
     const { id } = useParams();
@@ -17,6 +21,7 @@ export default function TokenReportPage() {
     const [prices, setPrices] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const { watchlist, toggleWatchlist } = useWatchlist();
 
     useEffect(() => {
         async function loadData() {
@@ -72,19 +77,31 @@ export default function TokenReportPage() {
 
             {/* 1. Header & Main Score Card */}
             <div className="card-light p-6 md:p-8 relative overflow-hidden">
-                {/* Background decoration */}
-                <div className="absolute -top-24 -right-24 w-[300px] h-[300px] bg-accent-glow rounded-full blur-[100px] pointer-events-none"></div>
+                {/* Clean background instead of glow */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#FAFAF7] to-white pointer-events-none"></div>
 
                 <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
                     <div className="flex-1 text-center md:text-left">
                         <div className="flex flex-col md:flex-row items-center gap-4 mb-4 justify-center md:justify-start">
                             {data.image ? (
-                                <img src={data.image} alt={data.name} className="w-16 h-16 rounded-full shadow-md border border-border-light bg-bg-secondary p-1" />
+                                <img src={data.image} alt={data.name} className="w-16 h-16 rounded-full shadow-sm border border-border-light bg-white p-1" />
                             ) : (
-                                <div className="w-16 h-16 rounded-full bg-border-light"></div>
+                                <div className="w-16 h-16 rounded-full bg-bg-secondary flex justify-center items-center text-2xl font-bold border border-border-light text-text-primary">
+                                    {data.symbol[0]}
+                                </div>
                             )}
                             <div>
-                                <h1 className="text-3xl md:text-4xl font-bold text-text-primary leading-tight">{data.name} <span className="text-text-muted text-2xl font-normal">({data.symbol})</span></h1>
+                                <h1 className="text-3xl md:text-4xl font-bold text-text-primary leading-tight flex items-center gap-2">
+                                    {data.name}
+                                    <span className="text-text-muted text-2xl font-normal">({data.symbol})</span>
+                                    <button
+                                        onClick={() => toggleWatchlist(data.id)}
+                                        className="ml-2 text-text-muted hover:text-accent-primary transition-colors focus:outline-none"
+                                        title={watchlist.includes(data.id) ? "Remove from Watchlist" : "Add to Watchlist"}
+                                    >
+                                        <Star size={24} className={watchlist.includes(data.id) ? "fill-accent-primary text-accent-primary" : ""} />
+                                    </button>
+                                </h1>
                                 <div className="text-sm font-mono text-text-secondary mt-1">
                                     Rank #{marketData.marketCapRank || 'N/A'} • {data.platformId ? `${data.platformId} Network` : 'Native Blockchain'}
                                 </div>
@@ -105,8 +122,8 @@ export default function TokenReportPage() {
                         </div>
                     </div>
 
-                    <div className="flex-shrink-0 flex flex-col items-center bg-bg-secondary p-8 rounded-3xl border border-border-light shadow-inner">
-                        <div className="text-xs font-bold text-text-muted uppercase tracking-[0.2em] mb-4">Combined Score</div>
+                    <div className="flex-shrink-0 flex flex-col items-center bg-white p-8 rounded-3xl border 2xl:border-2 border-border-light shadow-md">
+                        <div className="text-xs font-bold text-text-secondary uppercase tracking-[0.2em] mb-4">Combined Score</div>
                         <ScoreGauge score={scores.combined} size={180} />
                         <div className="w-full mt-6">
                             <ScoreBars safety={scores.safety} health={scores.health} combined={scores.combined} />
@@ -121,7 +138,7 @@ export default function TokenReportPage() {
                 {/* LEFT COLUMN: Safety & Health Splashes (60%) */}
                 <div className="lg:col-span-7 space-y-8">
                     <div className="card-light overflow-hidden">
-                        <div className="bg-bg-secondary px-6 py-4 border-b border-border-light flex justify-between items-center">
+                        <div className="bg-[#FAFAF7] px-6 py-4 border-b border-border-light flex justify-between items-center">
                             <h2 className="text-xl font-bold text-text-primary flex items-center gap-2">🛡️ Safety Analysis</h2>
                             <span className={`px-2 py-0.5 rounded text-sm font-bold ${scores.safety >= 80 ? 'bg-green-100 text-green-700 border border-green-200' : (scores.safety <= 40 ? 'bg-red-100 text-red-700 border border-red-200' : 'bg-amber-100 text-amber-700 border border-amber-200')}`}>
                                 {scores.safety}/100
@@ -139,7 +156,7 @@ export default function TokenReportPage() {
                     </div>
 
                     <div className="card-light overflow-hidden">
-                        <div className="bg-bg-secondary px-6 py-4 border-b border-border-light flex justify-between items-center">
+                        <div className="bg-[#FAFAF7] px-6 py-4 border-b border-border-light flex justify-between items-center">
                             <h2 className="text-xl font-bold text-text-primary flex items-center gap-2">📊 Health Analysis</h2>
                             <span className={`px-2 py-0.5 rounded text-sm font-bold ${scores.health >= 80 ? 'bg-green-100 text-green-700 border border-green-200' : (scores.health <= 40 ? 'bg-red-100 text-red-700 border border-red-200' : 'bg-amber-100 text-amber-700 border border-amber-200')}`}>
                                 {scores.health}/100
@@ -203,6 +220,12 @@ export default function TokenReportPage() {
                     )}
                 </div>
             </div>
+
+            {/* AI Brief Feature */}
+            <AIBrief tokenData={data} />
+
+            {/* Token Unlocks Feature */}
+            <TokenUnlocks symbol={data.symbol} />
 
             {/* 3. Detailed Metrics (MiniGauges) */}
             <h3 className="text-2xl font-bold text-text-primary pt-8 border-t border-border-light">Market Overview</h3>

@@ -35,15 +35,15 @@ export default function TokenCard({ token, rank }) {
                 )}
                 <div className="flex items-center gap-3 mb-4">
                     {displayImage ? (
-                        <img src={displayImage} alt={name} className="w-10 h-10 rounded-full bg-bg-secondary p-1 border border-border-light shadow-sm" />
+                        <img src={displayImage} alt={name} className="w-10 h-10 rounded-full border border-border-light shadow-sm" />
                     ) : (
-                        <div className="w-10 h-10 rounded-full bg-accent-glow flex items-center justify-center text-accent-primary font-bold shadow-sm">
+                        <div className="w-10 h-10 rounded-full bg-bg-secondary border border-border-light flex items-center justify-center text-text-primary mb-1 shadow-sm">
                             {symbol[0]}
                         </div>
                     )}
                     <div>
                         <h3 className="font-semibold text-text-primary text-base line-clamp-1 leading-tight group-hover:text-accent-primary transition-colors">{name}</h3>
-                        <span className="text-text-muted text-xs uppercase font-medium tracking-wide">{symbol}</span>
+                        <span className="text-text-secondary text-xs uppercase font-semibold tracking-wide">{symbol}</span>
                     </div>
                 </div>
 

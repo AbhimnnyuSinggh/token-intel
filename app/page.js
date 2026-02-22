@@ -53,53 +53,49 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
 
       {/* Hero Section */}
-      <section className="bg-bg-dark-section py-20 md:py-32 flex flex-col items-center justify-center text-center px-4 relative overflow-hidden">
-        {/* Subtle background glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent-primary opacity-5 blur-[150px] rounded-full pointer-events-none"></div>
-
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-text-onDark mb-6 tracking-tight max-w-4xl leading-tight">
+      <section className="bg-bg-primary py-24 md:py-32 flex flex-col items-center justify-center text-center px-4 relative overflow-hidden">
+        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-text-primary mb-6 tracking-tight max-w-4xl leading-[1.1]">
           Know Before You Buy
         </h1>
-        <p className="text-xl text-text-onDarkMuted mb-12 max-w-2xl font-light">
+        <p className="text-xl md:text-2xl text-text-secondary mb-12 max-w-3xl font-normal leading-relaxed">
           One score. Every token. Real data. Paste any token name or contract address for an instant, AI-powered safety and health analysis.
         </p>
 
-        <div className="w-full max-w-2xl relative z-10 group">
-          <div className="absolute inset-0 bg-accent-primary opacity-20 blur-xl rounded-2xl group-focus-within:opacity-40 transition-opacity duration-300"></div>
-          <div className="relative flex items-center bg-bg-card rounded-2xl border border-border-dark p-2 shadow-2xl">
+        <div className="w-full max-w-3xl relative z-10 group mt-4">
+          <div className="relative flex items-center bg-white rounded-2xl border-2 border-border-light p-2 shadow-lg focus-within:border-accent-primary focus-within:ring-4 focus-within:ring-accent-primary/20 transition-all duration-300">
             <Search className="w-6 h-6 text-text-muted ml-4" />
             <input
               type="text"
-              className="w-full bg-transparent border-none text-text-onDark px-4 py-4 text-lg focus:outline-none placeholder:text-text-muted"
+              className="w-full bg-transparent border-none text-text-primary px-4 py-4 text-xl focus:outline-none placeholder:text-text-muted font-medium"
               placeholder="Paste token name, symbol or contract..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
-            <button className="btn-primary py-3 px-8 text-lg hidden sm:block">
+            <button className="bg-accent-primary hover:bg-accent-primary-hover text-white font-semibold py-4 px-10 rounded-xl text-lg hidden sm:block transition-colors shadow-sm">
               Scan
             </button>
           </div>
 
           {/* Autocomplete Dropdown */}
           {results.length > 0 && query.length >= 2 && (
-            <div className="absolute top-full mt-2 w-full bg-bg-card border border-border-dark rounded-xl shadow-2xl overflow-hidden z-20">
+            <div className="absolute top-full left-0 right-0 mt-3 w-full bg-white border border-border-light rounded-2xl shadow-xl overflow-hidden z-20">
               {results.slice(0, 5).map(token => (
                 <div
                   key={token.id}
-                  className="px-6 py-4 border-b border-border-dark last:border-0 hover:bg-bg-dark-section cursor-pointer flex items-center gap-4 transition-colors text-left"
+                  className="px-6 py-4 border-b border-border-light last:border-0 hover:bg-bg-secondary cursor-pointer flex items-center gap-4 transition-colors text-left"
                   onClick={() => handleSelect(token.id)}
                 >
                   {token.thumb ? (
-                    <img src={token.thumb} alt={token.name} className="w-8 h-8 rounded-full bg-bg-secondary p-0.5" />
+                    <img src={token.thumb} alt={token.name} className="w-10 h-10 rounded-full border border-border-light" />
                   ) : (
-                    <div className="w-8 h-8 rounded-full bg-border-dark"></div>
+                    <div className="w-10 h-10 rounded-full bg-bg-secondary border border-border-light"></div>
                   )}
                   <div>
-                    <div className="font-semibold text-text-onDark">{token.name}</div>
-                    <div className="text-sm text-text-muted">{token.symbol.toUpperCase()}</div>
+                    <div className="font-semibold text-text-primary text-lg">{token.name}</div>
+                    <div className="text-sm text-text-secondary font-medium">{token.symbol.toUpperCase()}</div>
                   </div>
                   {token.marketCapRank && (
-                    <div className="ml-auto text-xs text-text-muted font-mono">Rank #{token.marketCapRank}</div>
+                    <div className="ml-auto text-sm text-text-muted font-mono font-medium bg-bg-secondary px-3 py-1 rounded-full">Rank #{token.marketCapRank}</div>
                   )}
                 </div>
               ))}
@@ -107,7 +103,7 @@ export default function Home() {
           )}
         </div>
 
-        <div className="mt-12 text-sm text-text-muted flex items-center gap-4 font-mono">
+        <div className="mt-10 text-sm md:text-base text-text-muted flex items-center justify-center gap-3 font-medium">
           <span>Trusted by 10,000+ scans</span>
           <span className="w-1.5 h-1.5 rounded-full bg-border-dark"></span>
           <span>Over 5,000 tokens analyzed</span>

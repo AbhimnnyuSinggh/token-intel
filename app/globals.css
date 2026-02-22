@@ -4,35 +4,38 @@
 
 @layer base {
   :root {
-    --bg-primary: #FFFFFF;
-    --bg-secondary: #F8F9FC;
-    --bg-dark-section: #0F1117;
-    --bg-dark-card: #1A1D28;
+    /* AICoFounder Aesthetic */
+    --bg-primary: #F5F4F1;       /* ivory-100 */
+    --bg-secondary: #FAFAF7;     /* ivory-50 */
+    --bg-dark-section: #ECE9E2;  /* ivory-350 / darker section */
+    --bg-dark-card: #FFFFFF;     /* pure white for pop */
+
+    --text-primary: #1F1F1F;     /* charcoal-700 */
+    --text-secondary: #4D4D4D;   /* charcoal-400 */
+    --text-muted: #8C8C8C;       /* charcoal-300 */
     
-    --text-primary: #1A1D28;
-    --text-secondary: #6B7280;
-    --text-muted: #9CA3AF;
-    --text-on-dark: #F3F4F6;
-    --text-on-dark-muted: #9CA3AF;
-    
+    /* We map dark-text vars to the same charcoal for pure light mode */
+    --text-on-dark: #1F1F1F;
+    --text-on-dark-muted: #6D6D6D; /* charcoal-350 */
+
     --score-excellent: #10B981;
     --score-good: #3B82F6;
     --score-moderate: #F59E0B;
     --score-poor: #EF4444;
     --score-danger: #DC2626;
-    
-    --accent-primary: #6366F1;
-    --accent-primary-hover: #4F46E5;
-    --accent-glow: rgba(99, 102, 241, 0.15);
-    
-    --border-light: #E5E7EB;
-    --border-dark: #2D3348;
-    
-    --chart-1: #6366F1;
-    --chart-2: #EC4899;
+
+    --accent-primary: #B85C44;       /* terracotta-500 */
+    --accent-primary-hover: #A45139; /* terracotta-600 */
+    --accent-glow: rgba(184, 92, 68, 0.15);
+
+    --border-light: #D9D9D9;     /* charcoal-150 */
+    --border-dark: #B3B3B3;      /* charcoal-200 */
+
+    --chart-1: #B85C44;
+    --chart-2: #1F1F1F;
     --chart-3: #14B8A6;
     --chart-4: #F59E0B;
-    --chart-5: #8B5CF6;
+    --chart-5: #6D6D6D;
   }
 }
 
@@ -44,12 +47,18 @@ body {
   line-height: 1.6;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   letter-spacing: -0.02em;
   line-height: 1.2;
 }
 
-.text-sm, .text-xs {
+.text-sm,
+.text-xs {
   letter-spacing: 0.05em;
   line-height: 1.4;
 }
@@ -57,26 +66,37 @@ h1, h2, h3, h4, h5, h6 {
 /* Base components */
 @layer components {
   .card-light {
-    @apply bg-[var(--bg-primary)] border border-[var(--border-light)] rounded-2xl shadow-[0_1px_3px_rgba(0,0,0,0.04),0_1px_2px_rgba(0,0,0,0.06)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_25px_rgba(0,0,0,0.08)];
+    @apply bg-white border border-[var(--border-light)] rounded-2xl transition-all duration-200;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
   }
-  
+  .card-light:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  }
+
   .card-dark {
-    @apply bg-[var(--bg-dark-card)] border border-[var(--border-dark)] rounded-2xl shadow-[0_4px_6px_rgba(0,0,0,0.1)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_25px_rgba(0,0,0,0.2)];
+    @apply bg-[var(--bg-secondary)] border border-[var(--border-light)] rounded-2xl transition-all duration-200;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   }
-  
+  .card-dark:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08); /* Flattened shadow for light mode */
+  }
+
   .btn-primary {
-    @apply bg-[var(--accent-primary)] text-white font-medium px-4 py-2 rounded-xl transition-all duration-200 hover:bg-[var(--accent-primary-hover)] hover:-translate-y-0.5 hover:shadow-[0_4px_14px_var(--accent-glow)];
+    @apply bg-[var(--accent-primary)] text-white font-medium px-4 py-2 rounded-xl transition-all duration-200 hover:bg-[var(--accent-primary-hover)];
   }
-  
+  .btn-primary:hover {
+    box-shadow: 0 4px 14px var(--accent-glow);
+  }
+
   .btn-ghost {
     @apply text-[var(--text-secondary)] font-medium px-4 py-2 rounded-xl transition-all duration-200 hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)];
   }
-  
+
   .input-field {
-    @apply bg-[var(--bg-secondary)] border border-[var(--border-light)] rounded-xl px-4 py-3 text-[var(--text-primary)] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)] focus:border-transparent placeholder:text-[var(--text-muted)];
+    @apply bg-white border border-[var(--border-light)] rounded-xl px-4 py-3 text-[var(--text-primary)] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)] focus:border-transparent placeholder:text-[var(--text-muted)];
   }
-  
+
   .input-field-dark {
-    @apply bg-[var(--bg-dark-section)] border border-[var(--border-dark)] rounded-xl px-4 py-3 text-[var(--text-on-dark)] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)] focus:border-transparent placeholder:text-[var(--text-on-dark-muted)] shadow-[0_0_15px_var(--accent-glow)_inset];
+    @apply bg-white border border-[var(--border-light)] rounded-xl px-4 py-3 text-[var(--text-primary)] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)] focus:border-transparent placeholder:text-[var(--text-muted)];
   }
 }
