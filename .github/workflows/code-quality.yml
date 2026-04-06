@@ -19,19 +19,22 @@ jobs:
 
             - name: Install Dependencies
               run: npm install --legacy-peer-deps
+              working-directory: ./token-intel
 
               #Check Linting
 
             - name: Lint Check
               run: npm run lint
+              working-directory: ./token-intel
 
             #Security Check
 
             - name: Code Security Audit
               run: npm audit --audit-level=high
-
+              working-directory: ./token-intel
         
             #Build Check
 
             - name: Build App
               run: npm run build
+              working-directory: ./token-intel
