@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "echo 'skip lint'"
+    "lint": "echo Lint skipped && exit 0"
   },
   "dependencies": {
     "lucide-react": "^0.575.0",
