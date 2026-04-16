@@ -1,0 +1,50 @@
+name: DevSecOps Pipeline
+
+on:
+    push:
+        branches: [main]
+    workflow_dispatch:
+
+jobs: 
+
+    #CODE QUALITY
+
+    code-quality:
+        uses: ./.github/workflows/code-quality.yml
+    
+    #SECRETS SCANNING
+
+    secrets-scan:
+        uses: ./.github/workflows/secrets-scan.yml
+        secrets: inherit
+
+    #DEPENDENCY SCAN
+    
+    dependency-scan:
+        uses: ./.github/workflows/dependency-scan.yml
+
+    #DOCKER LINT
+    
+    docker-lint:
+        uses: ./.github/workflows/docker-lint.yml
+
+    #BUILD AND PUSH
+
+    build-and-push:
+        needs: [code-quality , secrets-scan , dependency-scan , docker-lint]
+        uses: ./.github/workflows/build-push.yml
+        secrets: inherit
+
+    #TRIVY IMAGE SCAN
+
+    trivy:
+        needs: [build-and-push]
+        uses: ./.github/workflows/trivy-scan.yml
+        secrets: inherit
+
+
+
+
+
+
+   
