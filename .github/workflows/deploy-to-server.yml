@@ -1,0 +1,22 @@
+name: Deploy to EC2
+
+on:
+    workflow_call:
+
+
+jobs:
+    deploy:
+
+        runs-on: ubuntu-latest
+        
+        env:
+            DOCKERHUB_USER: ${{ vars.DOCKERHUB_USER }}
+            DOCKER_TAG: ${{github.sha}}
+        
+        steps:
+            - name: SSH to prod server and create app folder
+              uses: appleboy/ssh-action@v1.0.3
+              with:
+                host: ${{secrets.EC2_SSH_HOST}}
+                username: ${{secrets.EC2_SSH_USER}}
+                source: ${{secrets.EC2_SSH_PRIVATE_KEY}}
