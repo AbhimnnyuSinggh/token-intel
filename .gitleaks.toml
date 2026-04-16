@@ -1,0 +1,12 @@
+[allowlist]
+description = "Allow test files or dummy secrets"
+
+paths = [
+  '''.env.example''',
+  '''test/'''
+]
+
+regexes = [
+  '''dummy_token''',
+  '''example_key'''
+]
