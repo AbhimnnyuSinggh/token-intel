@@ -14,9 +14,35 @@ jobs:
             DOCKER_TAG: ${{github.sha}}
         
         steps:
-            - name: SSH to prod server and create app folder
+            - name: Setup server
               uses: appleboy/ssh-action@v1.0.3
               with:
-                host: ${{secrets.EC2_SSH_HOST}}
-                username: ${{secrets.EC2_SSH_USER}}
-                source: ${{secrets.EC2_SSH_PRIVATE_KEY}}
+                host: ${{ secrets.EC2_SSH_HOST }}
+                username: ${{ secrets.EC2_SSH_USER }}
+                key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+                script: |
+                    sudo apt-get update
+                    sudo apt-get install docker.io docker-compose-v2 -y
+                    mkdir -p ~/devops
+
+            - name: Copy docker-compose
+              uses: appleboy/scp-action@v1
+              with:
+                host: ${{ secrets.EC2_SSH_HOST }}
+                username: ${{ secrets.EC2_SSH_USER }}
+                key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+                source: docker-compose.yml
+                target: ~/devops
+
+            - name: Deploy app
+              uses: appleboy/ssh-action@v1.0.3
+              with:
+                host: ${{ secrets.EC2_SSH_HOST }}
+                username: ${{ secrets.EC2_SSH_USER }}
+                key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+                script: |
+                    echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ vars.DOCKERHUB_USER }} --password-stdin
+                    cd ~/devops
+                    docker compose down
+                    docker compose pull
+                    docker compose up -d
