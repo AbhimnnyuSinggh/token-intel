@@ -22,7 +22,7 @@ jobs:
 
             - name: Build Dockerhub Image
               run: |
-                docker build -t ${{ vars.DOCKERHUB_USER }}/token-intel:${{ github.sha }}
+                docker build -t abhimnyusingh/token-intel:${{ github.sha }} .
             
             - name: Push Docker Image
               run: |
