@@ -22,10 +22,10 @@ jobs:
             #fixed this
             - name: Build Dockerhub Image
               run: |
-                docker build -t abhimnyusingh/token-intel:${{ github.sha }} .
+                docker build -t abhimnyusingh/token-intel:latest .
             
             - name: Push Docker Image
               run: |
-                docker push ${{ vars.DOCKERHUB_USER  }}/token-intel:${{ github.sha  }}
+                docker push ${{ vars.DOCKERHUB_USER  }}/token-intel:latest
                 
               

@@ -26,6 +26,13 @@ jobs:
                 pwd
                 ls -R
 
+            - name: Debug docker login
+              run: |
+                echo "USER=${{ vars.DOCKERHUB_USER }}"
+                echo "TOKEN LENGTH=${#DOCKERHUB_TOKEN}"
+              env:
+                DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+
 
             - name: Setup server
               uses: appleboy/ssh-action@v1.0.3
