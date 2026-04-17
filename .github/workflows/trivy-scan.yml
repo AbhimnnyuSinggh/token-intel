@@ -22,7 +22,7 @@ jobs:
             - name: Trivy Scanner
               uses: aquasecurity/trivy-action@0.35.0
               with:
-                image-ref: ${{ vars.DOCKERHUB_USER }}/token-intel:${{ github.sha }}
+                image-ref: ${{ vars.DOCKERHUB_USER }}/token-intel:latest
                 severity: 'CRITICAL,HIGH'
                 exit-code: '1'
                 trivyignores: ${{github.workspace}}/.trivyignore

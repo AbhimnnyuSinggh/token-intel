@@ -3,7 +3,6 @@ version: '3.8'
 services:
     app:
         image: abhimmysingh/token-intel:latest
-        build: .
         container_name: token-intel-app
         ports:
           - "3000:3000"
